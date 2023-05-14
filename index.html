@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            font-family: Consolas;
+            text-align: center;
+        }
+
+        table {
+            border: 2px solid;
+        }
+
+        th {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        td {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <table id="player-table">
+        <tr>
+            <th>id</th>
+            <th>minecraft</th>
+            <th>discord</th>
+            <th>guild</th>
+            <th>created_at</th>
+            <th>cached_at</th>
+            <th>actions</th>
+        </tr>
+    </table>
+    <template id="player-template">
+        <tr>
+            <td class="id"></td>
+            <td class="minecraft"></td>
+            <td class="discord"></td>
+            <td class="guild"></td>
+            <td class="created_at"></td>
+            <td class="cached_at"></td>
+            <td><button>details</button><button>remove</button></td>
+        </tr>
+    </template>
+    <script>
+        const template = document.getElementById('player-template');
+        const table = document.getElementById('player-table');
+        fetch('http://localhost:4000/api/data')
+            .then(rsp => rsp.json())
+            .then(data => data.forEach(player => {
+                const copy = template.content.cloneNode(true);
+                copy.querySelector(".id").innerText = player.id
+                copy.querySelector(".minecraft").innerText = player.name
+                copy.querySelector(".discord").innerText = player.nickname
+                copy.querySelector(".guild").innerText = player.guildId
+                copy.querySelector(".created_at").innerText = formatDate(player.createdAt)
+                copy.querySelector(".cached_at").innerText = formatDate(player.cachedAt)
+                table.appendChild(copy);
+            }));
+
+        function formatDate(timestamp) {
+            const date = new Date(timestamp)
+            return `${addLeadingZeros(date.getHours())}:${addLeadingZeros(date.getMinutes())} ${addLeadingZeros(date.getDate())}-${addLeadingZeros(date.getMonth())}-${date.getFullYear()}`
+        }
+
+        function addLeadingZeros(num) {
+            return String(num).padStart(2, '0');
+        }
+    </script>
+</body>
+
+</html>

@@ -5,7 +5,7 @@ import { Column, Entity, Index } from "typeorm";
 @Entity("data", { schema: "guild_cache" })
 export class Data {
   @Column("int", { primary: true, name: "data_id", unsigned: true })
-  dataId: number;
+  id: number;
 
   @Column("varchar", { name: "name", length: 255 })
   name: string;

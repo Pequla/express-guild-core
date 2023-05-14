@@ -4,6 +4,8 @@ import dotenv from "dotenv"
 import morgan from "morgan"
 import { AppDataSource } from "./database"
 import { notFoundResponse } from "./utils"
+import {DataRouter} from './controller/data.route'
+import { SyncRouter } from "./controller/sync.route"
 
 // Setting up web server
 const app = express()
@@ -24,7 +26,8 @@ AppDataSource.initialize()
     .catch((error) => console.log(error))
 
 // Route setup
-// No routes yet
+app.use('/api/data', DataRouter);
+app.use('/api/sync', SyncRouter)
 
 // Default not found page
 app.get('*', function (req, res) {
