@@ -7,3 +7,8 @@ export function notFoundResponse(res: Response, msg = 'Not found') {
         timestamp: new Date()
     });
 }
+
+export function addHourToDate(date: Date) {
+    date.setHours(date.getHours() + 1)
+    return date;
+}

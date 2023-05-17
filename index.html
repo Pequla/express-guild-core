@@ -31,37 +31,47 @@
 <body>
     <table id="player-table">
         <tr>
-            <th>id</th>
+            <th>icon</th>
             <th>minecraft</th>
             <th>discord</th>
-            <th>guild</th>
             <th>created_at</th>
             <th>cached_at</th>
             <th>actions</th>
         </tr>
     </table>
+    <p>Thank you to <a href="https://crafatar.com">Crafatar</a> for providing avatars.</p>
     <template id="player-template">
         <tr>
-            <td class="id"></td>
+            <td class="icon"></td>
             <td class="minecraft"></td>
             <td class="discord"></td>
-            <td class="guild"></td>
             <td class="created_at"></td>
             <td class="cached_at"></td>
-            <td><button>details</button><button>remove</button></td>
+            <td>
+                <button type="button">details</button>
+                <button type="button">sync</button>
+            </td>
         </tr>
     </template>
     <script>
         const template = document.getElementById('player-template');
         const table = document.getElementById('player-table');
-        fetch('http://localhost:4000/api/data')
+        fetch('http://contabo.pequla.com:4000/api/data')
             .then(rsp => rsp.json())
             .then(data => data.forEach(player => {
                 const copy = template.content.cloneNode(true);
-                copy.querySelector(".id").innerText = player.id
+
+                const avatar = new Image(32, 32);
+                avatar.src = player.avatar
+                const skin = new Image(32, 32);
+                skin.src = `https://crafatar.com/avatars/${player.uuid}`
+
+                const icon = copy.querySelector(".icon")
+                icon.appendChild(avatar)
+                icon.appendChild(skin)
+                
                 copy.querySelector(".minecraft").innerText = player.name
                 copy.querySelector(".discord").innerText = player.nickname
-                copy.querySelector(".guild").innerText = player.guildId
                 copy.querySelector(".created_at").innerText = formatDate(player.createdAt)
                 copy.querySelector(".cached_at").innerText = formatDate(player.cachedAt)
                 table.appendChild(copy);

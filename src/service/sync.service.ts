@@ -20,8 +20,13 @@ const guild = process.env.GUILD_ID
 
 export class SyncService {
     public static async doPlayerSync(uuid: string) {
-        const link = await client.get(`/data/uuid/${uuid}`)
-        return await this.cachePlayer(link.data)
+        try {
+            const link = await client.get(`/data/uuid/${uuid}`)
+            return await this.cachePlayer(link.data)
+        } catch (err) {
+            console.log(`[ERROR]: Caching for player ${uuid} failed: ${err.message}`)
+            return await this.removePlayer(uuid);
+        }
     }
 
     public static async doSync() {
@@ -81,14 +86,14 @@ export class SyncService {
             return await DataService.save(record);
         } catch (err) {
             console.log(`[ERROR]: Caching for player ${model.uuid} failed: ${err.message}`)
-            return await this.removePlayer(model);
+            return await this.removePlayer(model.uuid);
         }
     }
 
-    private static async removePlayer(model: DataModel) {
-        const record = await DataService.findByUuid(model.uuid);
+    private static async removePlayer(uuid: string) {
+        const record = await DataService.findByUuid(uuid, false);
         if (record != null) {
-            console.log(`[INFO]: Removing player ${model.uuid} as ${record.nickname}`)
+            console.log(`[INFO]: Removing player ${uuid} as ${record.nickname}`)
             return await DataService.delete(record.id)
         }
     }
