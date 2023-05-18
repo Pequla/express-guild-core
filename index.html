@@ -25,11 +25,18 @@
             padding-left: 1rem;
             padding-right: 1rem;
         }
+
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+        }
     </style>
 </head>
 
 <body>
-    <table id="player-table">
+    <h3 id="stats" hidden></h3>
+    <p><a href="#">Link</a> | <a href="#">Link</a> | <a href="#">Link</a></p>
+    <table id="player-table" class="center">
         <tr>
             <th>icon</th>
             <th>minecraft</th>
@@ -49,7 +56,7 @@
             <td class="cached_at"></td>
             <td>
                 <button type="button">details</button>
-                <button type="button">sync</button>
+                <button type="button">update</button>
             </td>
         </tr>
     </template>
@@ -69,13 +76,21 @@
                 const icon = copy.querySelector(".icon")
                 icon.appendChild(avatar)
                 icon.appendChild(skin)
-                
+
                 copy.querySelector(".minecraft").innerText = player.name
                 copy.querySelector(".discord").innerText = player.nickname
                 copy.querySelector(".created_at").innerText = formatDate(player.createdAt)
                 copy.querySelector(".cached_at").innerText = formatDate(player.cachedAt)
                 table.appendChild(copy);
             }));
+
+        fetch('http://contabo.pequla.com:4000/api/data/stats')
+        .then(rsp => rsp.json())
+        .then(data => {
+            const stats = document.getElementById('stats')
+            stats.innerText = `Total of ${data.count} players from ${data.guilds.count} different guilds`
+            stats.hidden = false;
+        })
 
         function formatDate(timestamp) {
             const date = new Date(timestamp)

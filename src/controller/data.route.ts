@@ -17,15 +17,6 @@ DataRouter.get('/uuid/:uuid', async (req, res) => {
     res.json(data);
 })
 
-DataRouter.get('/:id', async (req, res) => {
-    const id = (req.params.id) as any as number
-    const data = await DataService.findById(id)
-    if (data == null) {
-        return notFoundResponse(res);
-    }
-    res.json(data);
-})
-
 DataRouter.get('/stats', async (req, res) => {
     const all = (await DataService.getGuilds()).map(obj => obj.guild_id)
     res.json({
@@ -35,4 +26,13 @@ DataRouter.get('/stats', async (req, res) => {
             list: all
         }
     })
+})
+
+DataRouter.get('/:id', async (req, res) => {
+    const id = (req.params.id) as any as number
+    const data = await DataService.findById(id)
+    if (data == null) {
+        return notFoundResponse(res);
+    }
+    res.json(data);
 })
