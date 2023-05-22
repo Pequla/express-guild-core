@@ -51,13 +51,13 @@ export class SyncService {
     public static async retrieveRemovedLinks() {
         const rsp = await client.get(`/data/deleted/after/${this.getISODateOneHourBefore()}`)
         for (let model of rsp.data) {
-            this.removePlayer(model)
+            this.removePlayer(model.uuid)
         }
     }
 
     private static getISODateOneHourBefore() {
         const date = new Date();
-        date.setDate(date.getHours() - 1)
+        date.setHours(date.getHours() - 1)
         return date.toISOString().substring(0, 19)
     }
 
