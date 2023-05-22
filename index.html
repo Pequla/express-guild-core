@@ -54,8 +54,8 @@
             <td class="created_at"></td>
             <td class="cached_at"></td>
             <td>
-                <button type="button">details</button>
-                <button type="button">update</button>
+                <button type="button" class="details">details</button>
+                <button type="button" class="update">update</button>
             </td>
         </tr>
     </template>
@@ -81,16 +81,30 @@
                 copy.querySelector(".discord").innerText = player.nickname
                 copy.querySelector(".created_at").innerText = formatDate(player.createdAt)
                 copy.querySelector(".cached_at").innerText = formatDate(player.cachedAt)
+
+                copy.querySelector(".details").addEventListener('click', () => {
+                    windows.location.href = `https://datavue.pequla.com/user/${player.discordId}`
+                })
+
+                copy.querySelector(".update").addEventListener('click', () => {
+                    fetch({
+                        method: 'POST',
+                        url: `${base}/sync/player/${player.uuid}`
+                    }).then(rsp => {
+                        window.location.reload()
+                    })
+                })
+
                 table.appendChild(copy);
             }));
 
         fetch(`${base}/data/stats`)
-        .then(rsp => rsp.json())
-        .then(data => {
-            const stats = document.getElementById('stats')
-            stats.innerText = `Total of ${data.count} players from ${data.guilds.count} different guilds`
-            stats.hidden = false;
-        })
+            .then(rsp => rsp.json())
+            .then(data => {
+                const stats = document.getElementById('stats')
+                stats.innerText = `Total of ${data.count} players from ${data.guilds.count} different guilds`
+                stats.hidden = false;
+            })
 
         function formatDate(timestamp) {
             const date = new Date(timestamp)
