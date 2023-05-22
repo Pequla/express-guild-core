@@ -17,7 +17,7 @@ export class DataService {
             }
         })
 
-        if (data == undefined){
+        if (data == undefined) {
             return null;
         }
 
@@ -35,7 +35,7 @@ export class DataService {
             }
         })
 
-        if (data == undefined){
+        if (data == undefined) {
             return null;
         }
 

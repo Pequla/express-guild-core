@@ -83,15 +83,14 @@
                 copy.querySelector(".cached_at").innerText = formatDate(player.cachedAt)
 
                 copy.querySelector(".details").addEventListener('click', () => {
-                    windows.location.href = `https://datavue.pequla.com/user/${player.discordId}`
+                    window.location.href = `https://datavue.pequla.com/user/${player.discordId}`
                 })
 
                 copy.querySelector(".update").addEventListener('click', () => {
-                    fetch({
-                        method: 'POST',
-                        url: `${base}/sync/player/${player.uuid}`
+                    fetch(`${base}/sync/player/${player.uuid}`, {
+                        method: 'POST'
                     }).then(rsp => {
-                        window.location.reload()
+                        window.location.reload();
                     })
                 })
 

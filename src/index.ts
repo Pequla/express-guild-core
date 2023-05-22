@@ -4,7 +4,7 @@ import dotenv from "dotenv"
 import morgan from "morgan"
 import { AppDataSource } from "./database"
 import { notFoundResponse } from "./utils"
-import {DataRouter} from './controller/data.route'
+import { DataRouter } from './controller/data.route'
 import { SyncRouter } from "./controller/sync.route"
 
 // Setting up web server
