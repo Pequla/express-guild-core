@@ -15,6 +15,10 @@ SyncRouter.post('/removed', async (req, res) => {
     res.json(await SyncService.retrieveRemovedLinks())
 })
 
+SyncRouter.post('/existing', async (req, res) => {
+    res.json(await SyncService.syncExisting())
+})
+
 SyncRouter.post('/player/:uuid', async (req, res) => {
     const uuid = req.params.uuid;
     res.json(await SyncService.doPlayerSync(uuid))

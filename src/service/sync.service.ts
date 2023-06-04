@@ -55,6 +55,13 @@ export class SyncService {
         }
     }
 
+    public static async syncExisting() {
+        const all = await DataService.findAll();
+        for (let model of all) {
+            this.cachePlayer(model as any)
+        }
+    }
+
     private static getISODateOneHourBefore() {
         const date = new Date();
         date.setHours(date.getHours() - 1)
