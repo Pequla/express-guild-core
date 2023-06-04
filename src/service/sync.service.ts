@@ -59,7 +59,7 @@ export class SyncService {
         const all = await DataService.findAll();
         for (let data of all) {
             const model = await client.get(`/data/${data.id}`)
-            await this.cachePlayer(model as any as DataModel)
+            await this.cachePlayer(model.data)
         }
     }
 
