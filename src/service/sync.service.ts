@@ -36,7 +36,7 @@ export class SyncService {
             total = rsp.data.totalPages
 
             for (let model of rsp.data.content) {
-                this.cachePlayer(model)
+                await this.cachePlayer(model)
             }
         }
     }
@@ -44,14 +44,14 @@ export class SyncService {
     public static async retrieveNewLinks() {
         const rsp = await client.get(`/data/created/after/${this.getISODateOneHourBefore()}`)
         for (let model of rsp.data) {
-            this.cachePlayer(model)
+            await this.cachePlayer(model)
         }
     }
 
     public static async retrieveRemovedLinks() {
         const rsp = await client.get(`/data/deleted/after/${this.getISODateOneHourBefore()}`)
         for (let model of rsp.data) {
-            this.removePlayer(model.uuid)
+            await this.removePlayer(model.uuid)
         }
     }
 
@@ -59,7 +59,7 @@ export class SyncService {
         const all = await DataService.findAll();
         for (let data of all) {
             const model = await client.get(`/data/${data.id}`)
-            this.cachePlayer(model as any as DataModel)
+            await this.cachePlayer(model as any as DataModel)
         }
     }
 
