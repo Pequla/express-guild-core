@@ -58,7 +58,7 @@ export class SyncService {
     public static async syncExisting() {
         const all = await DataService.findAll();
         for (let data of all) {
-            const model = await client.get(`/data/uuid/${data.uuid}`)
+            const model = await client.get(`/data/${data.id}`)
             this.cachePlayer(model as any as DataModel)
         }
     }
