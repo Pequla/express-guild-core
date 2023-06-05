@@ -1,11 +1,16 @@
 import axios from "axios"
 import dotenv from "dotenv"
-import { DataService } from "./data.service"
-import { DataModel } from "../dto/data.model"
+import {DataService} from "./data.service"
+import {DataModel} from "../dto/data.model"
+
+// Setup env variables
+dotenv.config()
+const base: string = process.env.BACKEND_BASE_URL
+const guild: string = process.env.GUILD_ID
 
 // Creating an axios instance
 export const client = axios.create({
-    baseURL: 'https://link.samifying.com/api',
+    baseURL: `${base}/api`,
     headers: {
         'Accept': 'application/json'
     },
@@ -13,10 +18,6 @@ export const client = axios.create({
         return status === 200 || status === 204
     }
 })
-
-// Retrive guild id
-dotenv.config()
-const guild = process.env.GUILD_ID
 
 export class SyncService {
     public static async doPlayerSync(uuid: string) {

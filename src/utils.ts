@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import {Response} from "express";
 
 // Not found response
 export function notFoundResponse(res: Response, msg = 'Not found') {
