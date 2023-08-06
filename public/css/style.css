@@ -1,0 +1,73 @@
+@font-face {
+    font-family: riffic;
+    src: url("./riffic.ttf");
+}
+
+* {
+    font-family: riffic;
+    text-align: center;
+}
+
+body {
+    background-color: #282828;
+    color: white;
+}
+
+a {
+    color: white;
+}
+
+a:hover {
+    color: #7289da;
+}
+
+table {
+    border: 2px solid;
+}
+
+th {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+td {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media only screen and (max-width: 900px) {
+
+    /* For mobile phones: */
+    .cached_at {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 750px) {
+
+    /* For mobile phones: */
+    .created_at {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 560px) {
+
+    /* For mobile phones: */
+    .discord {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 420px) {
+
+    /* For mobile phones: */
+    .action {
+        display: none;
+    }
+}

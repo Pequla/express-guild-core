@@ -1,6 +1,6 @@
 import dotenv from "dotenv"
-import {DataSource} from "typeorm"
-import {Data} from "./entities/data";
+import { DataSource } from "typeorm"
+import { Data } from "./entities/data";
 
 // Connecting to database
 dotenv.config();

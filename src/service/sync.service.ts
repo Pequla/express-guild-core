@@ -1,28 +1,11 @@
-import axios from "axios"
-import dotenv from "dotenv"
-import {DataService} from "./data.service"
-import {DataModel} from "../dto/data.model"
-
-// Setup env variables
-dotenv.config()
-const base: string = process.env.BACKEND_BASE_URL
-const guild: string = process.env.GUILD_ID
-
-// Creating an axios instance
-export const client = axios.create({
-    baseURL: `${base}/api`,
-    headers: {
-        'Accept': 'application/json'
-    },
-    validateStatus: function (status) {
-        return status === 200 || status === 204
-    }
-})
+import { DataService } from "./data.service"
+import { DataModel } from "../dto/data.model"
+import { WebService } from "./web.service"
 
 export class SyncService {
     public static async doPlayerSync(uuid: string) {
         try {
-            const link = await client.get(`/data/uuid/${uuid}`)
+            const link = await WebService.getDataByUUID(uuid)
             return await this.cachePlayer(link.data)
         } catch (err) {
             console.log(`[ERROR]: Caching for player ${uuid} failed: ${err.message}`)
@@ -33,7 +16,7 @@ export class SyncService {
     public static async doSync() {
         let total = 5; // start value
         for (let i = 0; i < total; i++) {
-            const rsp = await client.get(`/data?page=${i}&size=30`)
+            const rsp = await WebService.getDataPaged(i)
             total = rsp.data.totalPages
 
             for (let model of rsp.data.content) {
@@ -43,14 +26,14 @@ export class SyncService {
     }
 
     public static async retrieveNewLinks() {
-        const rsp = await client.get(`/data/created/after/${this.getISODateOneHourBefore()}`)
+        const rsp = await WebService.getCreatedData()
         for (let model of rsp.data) {
             await this.cachePlayer(model)
         }
     }
 
     public static async retrieveRemovedLinks() {
-        const rsp = await client.get(`/data/deleted/after/${this.getISODateOneHourBefore()}`)
+        const rsp = await WebService.getDeletedData()
         for (let model of rsp.data) {
             await this.removePlayer(model.uuid)
         }
@@ -59,22 +42,16 @@ export class SyncService {
     public static async syncExisting() {
         const all = await DataService.findAll();
         for (let data of all) {
-            const model = await client.get(`/data/${data.id}`)
+            const model = await WebService.getDataByID(data.id)
             await this.cachePlayer(model.data)
         }
-    }
-
-    private static getISODateOneHourBefore() {
-        const date = new Date();
-        date.setHours(date.getHours() - 1)
-        return date.toISOString().substring(0, 19)
     }
 
     private static async cachePlayer(model: DataModel) {
         console.log(`[INFO]: Sync started for ${model.uuid}`)
         try {
-            const link = await client.get(`/user/${guild}/${model.uuid}`)
-            const mojang = await client.get(`/cache/uuid/${model.uuid}`)
+            const link = await WebService.getDiscordUserByUUID(model.uuid)
+            const mojang = await WebService.getMojangAccountByUUID(model.uuid)
 
             // Record exists, save to database
             const record = {

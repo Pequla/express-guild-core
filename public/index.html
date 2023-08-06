@@ -5,47 +5,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GUILD CACHE</title>
-    <style>
-        * {
-            font-family: Consolas;
-            text-align: center;
-        }
-
-        table {
-            border: 2px solid;
-        }
-
-        th {
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-
-        td {
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-
-        .center {
-            margin-left: auto;
-            margin-right: auto;
-        }
-    </style>
+    <title>GUILD CORE</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
     <h3 id="stats" hidden></h3>
     <table id="player-table" class="center">
         <tr>
-            <th>icon</th>
-            <th>minecraft</th>
-            <th>discord</th>
-            <th>created_at</th>
-            <th>cached_at</th>
-            <th>actions</th>
+            <th class="icon">icon</th>
+            <th class="minecraft">minecraft</th>
+            <th class="discord">discord</th>
+            <th class="created_at">created_at</th>
+            <th class="cached_at">cached_at</th>
+            <th class="action">actions</th>
         </tr>
     </table>
-    <p>Thank you to <a href="https://crafatar.com">Crafatar</a> for providing avatars.</p>
+    <p>Thank you to <a href="https://crafatar.com">Crafatar</a> for providing avatars</p>
+    <p>Check out the <a href="status.html">server status</a></p>
     <template id="player-template">
         <tr>
             <td class="icon"></td>
@@ -53,17 +31,16 @@
             <td class="discord"></td>
             <td class="created_at"></td>
             <td class="cached_at"></td>
-            <td>
-                <button type="button" class="details">details</button>
-                <button type="button" class="update">update</button>
+            <td class="action">
+                <button type="button" class="details"><i class="fa-solid fa-circle-info"></i></button>
+                <button type="button" class="update"><i class="fas fa-sync"></i></button>
             </td>
         </tr>
     </template>
     <script>
-        const base = 'https://api.pequla.com/guildcache'
         const template = document.getElementById('player-template');
         const table = document.getElementById('player-table');
-        fetch(`${base}/data`)
+        fetch('/api/data')
             .then(rsp => rsp.json())
             .then(data => data.forEach(player => {
                 const copy = template.content.cloneNode(true);
@@ -87,7 +64,7 @@
                 })
 
                 copy.querySelector(".update").addEventListener('click', () => {
-                    fetch(`${base}/sync/player/${player.uuid}`, {
+                    fetch(`/api/sync/player/${player.uuid}`, {
                         method: 'POST'
                     }).then(rsp => {
                         window.location.reload();
@@ -97,7 +74,7 @@
                 table.appendChild(copy);
             }));
 
-        fetch(`${base}/data/stats`)
+        fetch('/api/data/stats')
             .then(rsp => rsp.json())
             .then(data => {
                 const stats = document.getElementById('stats')

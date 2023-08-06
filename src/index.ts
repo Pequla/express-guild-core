@@ -1,14 +1,16 @@
-import express, {Express} from "express"
+import express, { Express } from "express"
 import cors from "cors"
 import dotenv from "dotenv"
 import morgan from "morgan"
-import {AppDataSource} from "./database"
-import {notFoundResponse} from "./utils"
-import {DataRouter} from './controller/data.route'
-import {SyncRouter} from "./controller/sync.route"
+import { AppDataSource } from "./database"
+import { notFoundResponse } from "./utils"
+import { DataRouter } from './controller/data.route'
+import { SyncRouter } from "./controller/sync.route"
+import { StatusRouter } from "./controller/status.route"
 
 // Setting up web server
 const app: Express = express()
+app.use(express.static('public'))
 app.use(express.json())
 app.use(morgan('combined'))
 app.use(cors())
@@ -26,8 +28,9 @@ AppDataSource.initialize()
     .catch((error) => console.log(error))
 
 // Route setup
-app.use('/api/data', DataRouter);
+app.use('/api/data', DataRouter)
 app.use('/api/sync', SyncRouter)
+app.use('/api/status', StatusRouter)
 
 // Default not found page
 app.get('*', function (req, res) {
