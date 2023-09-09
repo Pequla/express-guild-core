@@ -8,9 +8,11 @@ export class StatusService {
 
         if (status.data.players.online > 0) {
             for (let player of status.data.players.sample) {
-                const uuid = player.id.replaceAll("-", "")
-                const data = await DataService.findByUuid(uuid)
-                sample.push(data)
+                if (player.id !== '00000000-0000-0000-0000-000000000000') {
+                    const uuid = player.id.replaceAll("-", "")
+                    const data = await DataService.findByUuid(uuid)
+                    sample.push(data)
+                }
             }
         }
 
