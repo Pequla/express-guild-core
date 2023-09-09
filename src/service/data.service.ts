@@ -1,7 +1,7 @@
-import { AppDataSource } from "../database";
-import { Data } from "../entities/data";
-import { addHourToDate } from "../utils";
-import { SyncService } from "./sync.service";
+import {AppDataSource} from "../database";
+import {Data} from "../entities/data";
+import {addHourToDate} from "../utils";
+import {SyncService} from "./sync.service";
 
 const repo = AppDataSource.getRepository(Data);
 

@@ -1,6 +1,6 @@
-import { Router } from "express";
-import { SyncService } from "../service/sync.service";
-import { responseHandler } from "../utils";
+import {Router} from "express";
+import {SyncService} from "../service/sync.service";
+import {responseHandler} from "../utils";
 
 export const SyncRouter = Router();
 
