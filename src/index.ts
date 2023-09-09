@@ -10,7 +10,6 @@ import { StatusRouter } from "./controller/status.route"
 
 // Setting up web server
 const app: Express = express()
-app.use(express.static('public'))
 app.use(express.json())
 app.use(morgan('combined'))
 app.use(cors())
