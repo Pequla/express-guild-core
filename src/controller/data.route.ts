@@ -1,10 +1,10 @@
-import {Router} from "express";
+import {Router, Request, Response} from "express";
 import {DataService} from "../service/data.service";
 import {notFoundResponse} from "../utils";
 
 export const DataRouter = Router();
 
-DataRouter.get('/', async (req, res) => {
+DataRouter.get('/', async (req: Request, res: Response) => {
     res.json(await DataService.findAll())
 })
 
