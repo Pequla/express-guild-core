@@ -1,6 +1,6 @@
-import {Router} from "express";
-import {StatusService} from "../service/status.service";
-import {responseHandler} from "../utils";
+import { Router } from "express";
+import { StatusService } from "../service/status.service";
+import { responseHandler } from "../utils";
 
 export const StatusRouter = Router();
 

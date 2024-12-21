@@ -1,5 +1,5 @@
-import {DataService} from "./data.service";
-import {WebService} from "./web.service";
+import { DataService } from "./data.service";
+import { WebService } from "./web.service";
 
 export class StatusService {
     public static async fromAddress(addr: string) {

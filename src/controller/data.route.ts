@@ -1,6 +1,6 @@
-import {Router, Request, Response} from "express";
-import {DataService} from "../service/data.service";
-import {notFoundResponse} from "../utils";
+import { Router, Request, Response } from "express";
+import { DataService } from "../service/data.service";
+import { notFoundResponse } from "../utils";
 
 export const DataRouter = Router();
 

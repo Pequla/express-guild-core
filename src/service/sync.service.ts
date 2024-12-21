@@ -1,6 +1,6 @@
-import {DataService} from "./data.service"
-import {DataModel} from "../dto/data.model"
-import {WebService} from "./web.service"
+import { DataService } from "./data.service"
+import { DataModel } from "../dto/data.model"
+import { WebService } from "./web.service"
 
 export class SyncService {
     public static async doPlayerSync(uuid: string) {
