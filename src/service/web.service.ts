@@ -19,7 +19,7 @@ const client = axios.create({
 
 export class WebService {
     public static getDataPaged(page: number) {
-        return client.get(`/data?page=${page}&size=30`)
+        return client.get(`/data/guild/${guild}?page=${page}&size=30`)
     }
 
     public static getDataByID(id: number) {
